@@ -148,3 +148,19 @@ log4j = {
       error "grails.app.controllers" }
   }
 }
+
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'org.rememberme.security.SecUser'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'org.rememberme.security.SecUserSecRole'
+grails.plugin.springsecurity.authority.className = 'org.rememberme.security.SecRole'
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	'/':                              ['permitAll'],
+	'/index':                         ['permitAll'],
+	'/index.gsp':                     ['permitAll'],
+	'/**/js/**':                      ['permitAll'],
+	'/**/css/**':                     ['permitAll'],
+	'/**/images/**':                  ['permitAll'],
+	'/**/favicon.ico':                ['permitAll']
+]
+
