@@ -164,3 +164,16 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/favicon.ico':                ['permitAll']
 ]
 
+grails.cache.config = {
+  cache {
+     name 'tokens'
+  }
+}
+
+grails.plugin.springsecurity.rest.token.storage.useGrailsCache = true
+grails.plugin.springsecurity.rest.token.storage.grailsCacheName = 'tokens'
+
+grails.plugin.springsecurity.rest.token.validation.enabled = true
+grails.plugin.springsecurity.rest.token.validation.headerName = 'X-Auth-Token'
+grails.plugin.springsecurity.rest.token.validation.endpointUrl = '/api/validate'
+grails.plugin.springsecurity.rest.token.validation.tokenHeaderMissingStatusCode = 401
