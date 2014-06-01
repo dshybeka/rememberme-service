@@ -53,12 +53,12 @@ class PhotoController {
     SecUser user = SecUser.get(userId)
     if (user) {
 
-      result.urls = []
+      result.photoDetails = []
       user.photos.each { Photo photo ->
-        result.urls << [id: photo.id, name: photo.fileName, userDescription: photo.userDescription, information: photo.processedInformation ]
+        result.photoDetails << [id: photo.id, name: photo.fileName, userDescription: photo.userDescription, information: photo.processedInformation, url: "http://localhost:8090/RememberMe/user/${userId}/photo/${photo.id}" ]
       }
 
-      if (result.urls.empty) {
+      if (result.photoDetails.empty) {
         response.status = 404
       } else {
         result.success = true
