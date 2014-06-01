@@ -1,5 +1,8 @@
 package org.rememberme.security
 
+import org.rememberme.domain.Photo
+
+
 class SecUser {
 
 	transient springSecurityService
@@ -10,6 +13,9 @@ class SecUser {
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
+
+  List<Photo> photos
+  static hasMany = [photos: Photo]
 
 	static transients = ['springSecurityService']
 

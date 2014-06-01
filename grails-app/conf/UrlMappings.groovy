@@ -6,8 +6,6 @@ class UrlMappings {
 
     "/doCall"(controller: "imageApi", action: "doPostCall")
 
-    "/uploadPhoto"(controller: "photo", action: "save")
-
     "/"(view:"/index")
 
     "500"(view:'/error')
@@ -16,5 +14,13 @@ class UrlMappings {
     "/logout/$action?"(controller: "logout")
 
     "/api/registration"(controller: "registration", action: "register")
+
+    // user photos mapping
+    "/user/${userId}/photo"(controller: "photo") {
+      action = [POST:"save", GET:"getUserPhotos"]
+    }
+    "/user/${userId}/photo/${photoId}"(controller: "photo", action: "getPhoto") {
+      action = [GET:"getPhoto"]
+    }
   }
 }
