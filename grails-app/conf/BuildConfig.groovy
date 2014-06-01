@@ -56,6 +56,7 @@ grails.project.dependency.resolution = {
     // runtime 'mysql:mysql-connector-java:5.1.27'
     // runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
     compile "org.codehaus.groovy.modules.http-builder:http-builder:0.7"
+    compile "com.google.guava:guava-collections:r03"
     //compile 'org.codehaus.groovy:groovy-all:2.1.8'
   }
 
