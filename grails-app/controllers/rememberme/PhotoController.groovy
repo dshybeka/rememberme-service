@@ -36,7 +36,6 @@ class PhotoController {
     if (photoDetails && userId == photoDetails.secUser.id) { // should be refactored to user photo path as we use userId there
 
       File photo = new File(photoDetails.pathToFile)
-      println "photoDetails.pathToFile " + photoDetails.pathToFile
 
       response.contentType = 'image/png'
       response.outputStream << photo.bytes

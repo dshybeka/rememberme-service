@@ -14,6 +14,7 @@ class PhotoService {
   @Autowired
   PhotoUtil photoUtil
 
+  // TODO: resolve issue with synchronization
   def savePhotoForUser(CommonsMultipartFile file, Long userId) {
 
     Boolean isSavedSuccess = false

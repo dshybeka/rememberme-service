@@ -4,6 +4,8 @@ import org.rememberme.security.SecUser
 
 class Photo {
 
+  private static String NO_INFO_MESSAGE = "No information exists for this photo."
+
   String fileName
   String path
   String thumbPath
@@ -28,5 +30,13 @@ class Photo {
 
   public String getPathToThumbFile() {
     thumbPath + "//" + fileName
+  }
+
+  public String getUserDescription() {
+    userDescription ?: NO_INFO_MESSAGE
+  }
+
+  public String getProcessedInformation() {
+    processedInformation ?: NO_INFO_MESSAGE
   }
 }
