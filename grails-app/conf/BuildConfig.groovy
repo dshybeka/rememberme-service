@@ -57,6 +57,7 @@ grails.project.dependency.resolution = {
     // runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
     compile "org.codehaus.groovy.modules.http-builder:http-builder:0.7"
     compile "com.google.guava:guava-collections:r03"
+    compile "org.imgscalr:imgscalr-lib:4.2"
     //compile 'org.codehaus.groovy:groovy-all:2.1.8'
   }
 
@@ -73,6 +74,10 @@ grails.project.dependency.resolution = {
     runtime ":database-migration:1.4.0"
     runtime ":jquery:1.11.0.2"
     runtime ":resources:1.2.7"
+    runtime ":cors:1.1.6", {
+      excludes 'org.springframework.security:spring-security-core:3.0.7.RELEASE'
+      excludes 'org.springframework.security:spring-security-web:3.0.7.RELEASE'
+    }
 
     compile ":spring-security-core:2.0-RC3"
 

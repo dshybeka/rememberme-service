@@ -22,5 +22,8 @@ class UrlMappings {
     "/user/${userId}/photo/${photoId}"(controller: "photo", action: "getPhoto") {
       action = [GET:"getPhoto"]
     }
+    "/user/${userId}/photo/${photoId}/thumb"(controller: "photo") {
+      action = [GET:"getThumbnailPhoto"]
+    }
   }
 }

@@ -180,3 +180,10 @@ grails.plugin.springsecurity.rest.token.validation.tokenHeaderMissingStatusCode 
 
 
 photos.default.path="D:\\rememerb-me\\media"
+
+
+cors.headers = [
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token, Cache-Control',
+  'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS'
+  ]
