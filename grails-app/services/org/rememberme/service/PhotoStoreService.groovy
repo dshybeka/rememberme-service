@@ -53,9 +53,7 @@ class PhotoStoreService {
   private void saveThumbnailImage(String pathToImageWithName, CommonsMultipartFile file) {
 
     BufferedImage image = ImageIO.read(file.inputStream)
-    println "image.width " + image.width + " | " + image.height
     image = Scalr.resize(image, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 200, 200, Scalr.OP_ANTIALIAS)
-    println "image.width after" + image.width + " | " + image.height
     String extension = FilenameUtils.getExtension(file.getFileItem().name)
     File outputfile = new File(pathToImageWithName);
     ImageIO.write(image, extension, outputfile);

@@ -1,18 +1,27 @@
 package org.rememberme.domain
 
+import org.joda.time.LocalDate
 import org.rememberme.security.SecUser
 
 class Photo {
 
   private static String NO_INFO_MESSAGE = "No information exists for this photo."
 
+  String uid
+
   String fileName
   String path
   String thumbPath
   String processedPath
-
   String userDescription
   String processedInformation
+
+  Integer width
+  Integer height
+
+  Boolean isProcessed
+
+  LocalDate createDate
 
   static belongsTo = [secUser: SecUser]
 
@@ -22,6 +31,9 @@ class Photo {
     processedInformation nullable: true
     processedPath nullable: true
     thumbPath nullable: true
+    createDate nullable: true
+    isProcessed nullable: true
+    uid nullable: true
   }
 
   public String getPathToFile() {
@@ -32,11 +44,16 @@ class Photo {
     thumbPath + "//" + fileName
   }
 
-  public String getUserDescription() {
+  public String getUserDescriptionDefault() {
     userDescription ?: NO_INFO_MESSAGE
   }
 
-  public String getProcessedInformation() {
+  public String getProcessedInformationDefault() {
     processedInformation ?: NO_INFO_MESSAGE
+  }
+
+  def beforeInsert = {
+    createDate = new LocalDate()
+    isProcessed = false
   }
 }

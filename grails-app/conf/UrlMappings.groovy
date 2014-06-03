@@ -19,8 +19,14 @@ class UrlMappings {
     "/user/${userId}/photo"(controller: "photo") {
       action = [POST:"save", GET:"getUserPhotos"]
     }
-    "/user/${userId}/photo/${photoId}"(controller: "photo", action: "getPhoto") {
+    "/user/${userId}/photo/${photoId}"(controller: "photo") {
       action = [GET:"getPhoto"]
+    }
+    "/user/${userId}/photo/${photoId}/details"(controller: "photo") {
+      action = [GET:"getPhotoDetails", PUT:"savePhotoDetails"]
+    }
+    "/user/${userId}/photo/${photoId}/process"(controller: "photo") {
+      action = [POST:"processPhoto"]
     }
     "/user/${userId}/photo/${photoId}/thumb"(controller: "photo") {
       action = [GET:"getThumbnailPhoto"]

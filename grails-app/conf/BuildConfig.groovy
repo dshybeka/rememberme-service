@@ -43,6 +43,7 @@ grails.project.dependency.resolution = {
     grailsCentral()
     mavenCentral()
     mavenRepo 'http://repo.spring.io/milestone'
+    mavenRepo "http://repo.grails.org/grails/libs-releases/"
   }
 
 //  configurations.all {
@@ -58,6 +59,8 @@ grails.project.dependency.resolution = {
     compile "org.codehaus.groovy.modules.http-builder:http-builder:0.7"
     compile "com.google.guava:guava-collections:r03"
     compile "org.imgscalr:imgscalr-lib:4.2"
+
+    compile "org.jadira.usertype:usertype.jodatime:1.9"
     //compile 'org.codehaus.groovy:groovy-all:2.1.8'
   }
 
@@ -78,6 +81,8 @@ grails.project.dependency.resolution = {
       excludes 'org.springframework.security:spring-security-core:3.0.7.RELEASE'
       excludes 'org.springframework.security:spring-security-web:3.0.7.RELEASE'
     }
+
+    compile ":joda-time:1.4"
 
     compile ":spring-security-core:2.0-RC3"
 

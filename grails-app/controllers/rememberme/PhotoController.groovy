@@ -33,7 +33,7 @@ class PhotoController {
     Long photoId = params.long("photoId")
 
     Photo photoDetails = Photo.get(photoId)
-    if (photoDetails && userId == photoDetails.secUser.id) { // should be refactored to user photo path as we use userId there
+    if (photoDetails && photoDetails.path.endsWith("$userId")) {
 
       File photo = new File(photoDetails.pathToFile)
 
@@ -51,7 +51,7 @@ class PhotoController {
     Long photoId = params.long("photoId")
 
     Photo photoDetails = Photo.get(photoId)
-    if (photoDetails && userId == photoDetails.secUser.id) { // should be refactored to user photo path as we use userId there
+    if (photoDetails && photoDetails.path.endsWith("$userId")) {
 
       File photo = new File(photoDetails.pathToThumbFile)
 
@@ -63,6 +63,33 @@ class PhotoController {
     }
   }
 
+  def getPhotoDetails() {
+
+    def result = [:]
+
+    Long userId = params.long("userId")
+    Long photoId = params.long("photoId")
+
+    Photo curPhotoDetails = Photo.get(photoId)
+    if (curPhotoDetails && curPhotoDetails.path.endsWith("$userId")) {
+
+      result.data = [ id: curPhotoDetails.id,
+        name: curPhotoDetails.fileName,
+        userDescription: curPhotoDetails.userDescriptionDefault,
+        processedInformation: curPhotoDetails.processedInformationDefault,
+        url: "http://localhost:8090/RememberMe/user/${userId}/photo/${curPhotoDetails.id}",
+        urlThumb: "http://localhost:8090/RememberMe/user/${userId}/photo/${curPhotoDetails.id}/thumb",
+        urlProcess: "http://localhost:8090/RememberMe/user/${userId}/photo/${curPhotoDetails.id}/process",
+        createDate: curPhotoDetails.createDate,
+        userId: userId ]
+      result.success = true
+    } else {
+      result.success = false
+      response.status = 404
+    }
+
+    render result as JSON
+  }
 
   def getUserPhotos() {
 
@@ -73,17 +100,24 @@ class PhotoController {
     SecUser user = SecUser.get(userId)
     if (user) {
 
-      result.photoDetails = []
-      user.photos.each { Photo photo ->
-        result.photoDetails << [id: photo.id, name: photo.fileName, userDescription: photo.userDescription, information: photo.processedInformation, url: "http://localhost:8090/RememberMe/user/${userId}/photo/${photo.id}/thumb" ]
+      result.data = []
+      user.photos.each { Photo curPhotoDetails ->
+        result.data << [ id: curPhotoDetails.id,
+          name: curPhotoDetails.fileName,
+          userDescription: curPhotoDetails.userDescriptionDefault,
+          processedInformation: curPhotoDetails.processedInformationDefault,
+          url: "http://localhost:8090/RememberMe/user/${userId}/photo/${curPhotoDetails.id}",
+          urlThumb: "http://localhost:8090/RememberMe/user/${userId}/photo/${curPhotoDetails.id}/thumb",
+          urlProcess: "http://localhost:8090/RememberMe/user/${userId}/photo/${curPhotoDetails.id}/process",
+          createDate: curPhotoDetails.createDate,
+          userId: userId ]
       }
 
-      if (result.photoDetails.empty) {
+      if (result.data.empty) {
         response.status = 404
       } else {
         result.success = true
       }
-
     } else {
       response.status = 404
       result.success = false
@@ -124,4 +158,42 @@ class PhotoController {
     render result as JSON
   }
 
+  def savePhotoDetails() {
+
+    def result = [:]
+
+    Long userId = params.long("userId")
+    Long photoId = params.long("photoId")
+
+    if (userId && photoId) {
+      println "udpate photo"
+      photoService.updatePhotoWithParams(params + request.JSON)
+      result.success = true
+    } else {
+      result.success = false
+      response.status = 404
+    }
+
+    render result as JSON
+  }
+
+  def processPhoto() {
+
+    def result = [:]
+
+    Long userId = params.long("userId")
+    Long photoId = params.long("photoId")
+
+    if (userId && photoId) {
+
+      photoService.processPhoto(userId, photoId)
+
+      result.success = true
+    } else {
+      result.success = false
+      response.status = 404
+    }
+
+    render result as JSON
+  }
 }

@@ -187,3 +187,10 @@ cors.headers = [
   'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token, Cache-Control',
   'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS'
   ]
+
+
+grails.gorm.default.mapping = {
+  "user-type" type: org.jadira.usertype.dateandtime.joda.PersistentDateTime, class: org.joda.time.DateTime
+  "user-type" type: org.jadira.usertype.dateandtime.joda.PersistentLocalDate, class: org.joda.time.LocalDate
+  // … define as many other user type mappings as you need
+}
