@@ -28,7 +28,7 @@ class PhotoController {
   }
 
   def getPhoto() {
-
+println "send photo to front!"
     Long userId = params.long("userId")
     Long photoId = params.long("photoId")
 
@@ -179,14 +179,17 @@ class PhotoController {
 
   def processPhoto() {
 
+    println "properties " + params
+
     def result = [:]
 
     Long userId = params.long("userId")
     Long photoId = params.long("photoId")
+    String helpUid = params.helpUid
+println "helpUid " + helpUid
+    if (userId && photoId && helpUid) {
 
-    if (userId && photoId) {
-
-      photoService.processPhoto(userId, photoId)
+      photoService.processPhoto(userId, photoId, helpUid)
 
       result.success = true
     } else {

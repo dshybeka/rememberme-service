@@ -7,7 +7,7 @@ class Photo {
 
   private static String NO_INFO_MESSAGE = "No information exists for this photo."
 
-  String uid
+  String helpUid
 
   String fileName
   String path
@@ -33,7 +33,7 @@ class Photo {
     thumbPath nullable: true
     createDate nullable: true
     isProcessed nullable: true
-    uid nullable: true
+    helpUid nullable: true
   }
 
   public String getPathToFile() {
@@ -54,6 +54,5 @@ class Photo {
 
   def beforeInsert = {
     createDate = new LocalDate()
-    isProcessed = false
   }
 }

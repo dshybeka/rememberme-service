@@ -80,24 +80,26 @@ class PhotoService {
 
       String fileName = curPhotoDetails.pathToFile
 
-      String encodedFile = encodeFileToBase64Binary(fileName)
-      byte[] encodedFileBytes = encodeFileToBase64BinaryBytes(fileName)
+//      String encodedFile = encodeFileToBase64Binary(fileName)
+      byte[] encodedFileBytes = encodeFileToBase64BinaryBytes(curPhotoDetails.pathToFile)
+      println "encodedFileBytes " + encodedFileBytes
 
       def http = new HTTPBuilder('http://betafaceapi.com/service_json.svc/UploadNewImage_File' )
       def http2 = new HTTPBuilder('http://betafaceapi.com/service_json.svc/GetImageInfo' )
 
-      if (!curPhotoDetails.uid) {
+      if (!curPhotoDetails.helpUid) {
         http.request( POST, JSON  ) {
           body = ["api_key": 'd45fd466-51e2-4701-8da8-04351c872236',
             "api_secret": '171e8465-f548-401d-b63b-caf0dc28df5f',
             "imagefile_data": encodedFileBytes,
+            "detection_flags": "cropface",
             "original_filename": curPhotoDetails.fileName]
 
           response.success = { resp, json ->
             println "resp " + json
             if (json.int_response == 0) {
               println "uid set"
-              curPhotoDetails.uid = json.img_uid
+              curPhotoDetails.helpUid = json.img_uid
             }
             println "POST response status: ${resp.statusLine}"
           }
@@ -106,11 +108,11 @@ class PhotoService {
         curPhotoDetails.save(flush: true)
       }
 
-      if (curPhotoDetails.uid) {
+      if (curPhotoDetails.helpUid) {
         http2.request( POST, JSON  ) {
           body = ["api_key": 'd45fd466-51e2-4701-8da8-04351c872236',
             "api_secret": '171e8465-f548-401d-b63b-caf0dc28df5f',
-            "img_uid": curPhotoDetails.uid]
+            "img_uid": "0217ea81-4ca6-4e15-9ff9-33f5a5465a6d "]
 
           response.success = { resp, json ->
             println "resp " + json
@@ -123,25 +125,25 @@ class PhotoService {
 
   }
 
-  private String encodeFileToBase64Binary(String fileName)
+//  private String encodeFileToBase64Binary(String fileName)
+//  throws IOException {
+//
+//    File file = new File(fileName);
+//    byte[] bytes = loadFile(file);
+//    byte[] encoded = Base64.encodeBase64(bytes);
+//    String encodedString = new String(encoded);
+//
+//    return encodedString;
+//  }
+
+  private byte[] encodeFileToBase64BinaryBytes(String pathToFile)
   throws IOException {
 
-    File file = new File(fileName);
-    byte[] bytes = loadFile(file);
-    byte[] encoded = Base64.encodeBase64(bytes);
-    String encodedString = new String(encoded);
+    //File file = new File(fileName)
+    byte[] bytes = new File(pathToFile).bytes
+   // byte[] encoded = Base64.encodeBase64(bytes);
 
-    return encodedString;
-  }
-
-  private byte[] encodeFileToBase64BinaryBytes(String fileName)
-  throws IOException {
-
-    File file = new File(fileName);
-    byte[] bytes = loadFile(file);
-    byte[] encoded = Base64.encodeBase64(bytes);
-
-    return encoded
+    return Base64.encodeBase64(bytes)
   }
 
   private static byte[] loadFile(File file) throws IOException {
