@@ -20,9 +20,9 @@ class FrontModelFormatter {
       userId: userId ]
   }
 
-  public static Map formatFaces(List<Face> faces) {
+  public static def formatFaces(List<Face> faces) {
 
-    def result = [:]
+    def result = []
 
     faces?.each { Face face ->
       result << formatFace(face)
