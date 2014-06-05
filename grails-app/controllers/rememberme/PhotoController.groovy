@@ -28,7 +28,7 @@ class PhotoController {
   }
 
   def getPhoto() {
-println "send photo to front!"
+
     Long userId = params.long("userId")
     Long photoId = params.long("photoId")
 
@@ -38,7 +38,8 @@ println "send photo to front!"
       File photo = new File(photoDetails.pathToFile)
 
       response.contentType = 'image/png'
-      response.outputStream << photo.bytes
+      response.setHeader("Content-Length", "${photo.size()}")
+      response.outputStream << photo.readBytes()
       response.outputStream.flush()
     } else {
       response.status = 404
@@ -56,7 +57,7 @@ println "send photo to front!"
       File photo = new File(photoDetails.pathToThumbFile)
 
       response.contentType = 'image/png'
-      response.outputStream << photo.bytes
+      response.outputStream << photo.readBytes()
       response.outputStream.flush()
     } else {
       response.status = 404
@@ -177,19 +178,17 @@ println "send photo to front!"
     render result as JSON
   }
 
-  def processPhoto() {
+  def saveProcessedPhoto() {
 
-    println "properties " + params
+    println "properties " + request.JSON
 
     def result = [:]
 
     Long userId = params.long("userId")
     Long photoId = params.long("photoId")
-    String helpUid = params.helpUid
-println "helpUid " + helpUid
-    if (userId && photoId && helpUid) {
+    if (userId && photoId) {
 
-      photoService.processPhoto(userId, photoId, helpUid)
+      photoService.saveProcessedPhoto(userId, photoId, params + request.JSON)
 
       result.success = true
     } else {
