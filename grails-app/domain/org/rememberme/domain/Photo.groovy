@@ -12,7 +12,6 @@ class Photo {
   String fileName
   String path
   String thumbPath
-  String processedPath
   String userDescription
   String processedInformation
 
@@ -23,13 +22,16 @@ class Photo {
 
   LocalDate createDate
 
+  List<Face> faces
+  static hasMany = [faces: Face]
+
   static belongsTo = [secUser: SecUser]
 
   static constraints = {
     secUser nullable: true
+    faces nulalble: true
     userDescription nullable: true
     processedInformation nullable: true
-    processedPath nullable: true
     thumbPath nullable: true
     createDate nullable: true
     isProcessed nullable: true

@@ -7,6 +7,7 @@ import org.rememberme.domain.Photo
 import org.rememberme.security.SecUser
 import org.rememberme.service.PhotoService
 import org.rememberme.service.PhotoStoreService
+import org.rememberme.util.FrontModelFormatter
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
@@ -74,15 +75,7 @@ class PhotoController {
     Photo curPhotoDetails = Photo.get(photoId)
     if (curPhotoDetails && curPhotoDetails.path.endsWith("$userId")) {
 
-      result.data = [ id: curPhotoDetails.id,
-        name: curPhotoDetails.fileName,
-        userDescription: curPhotoDetails.userDescriptionDefault,
-        processedInformation: curPhotoDetails.processedInformationDefault,
-        url: "http://localhost:8090/RememberMe/user/${userId}/photo/${curPhotoDetails.id}",
-        urlThumb: "http://localhost:8090/RememberMe/user/${userId}/photo/${curPhotoDetails.id}/thumb",
-        urlProcess: "http://localhost:8090/RememberMe/user/${userId}/photo/${curPhotoDetails.id}/process",
-        createDate: curPhotoDetails.createDate,
-        userId: userId ]
+      result.data = FrontModelFormatter.formatPhoto(curPhotoDetails, userId)
       result.success = true
     } else {
       result.success = false
@@ -103,15 +96,7 @@ class PhotoController {
 
       result.data = []
       user.photos.each { Photo curPhotoDetails ->
-        result.data << [ id: curPhotoDetails.id,
-          name: curPhotoDetails.fileName,
-          userDescription: curPhotoDetails.userDescriptionDefault,
-          processedInformation: curPhotoDetails.processedInformationDefault,
-          url: "http://localhost:8090/RememberMe/user/${userId}/photo/${curPhotoDetails.id}",
-          urlThumb: "http://localhost:8090/RememberMe/user/${userId}/photo/${curPhotoDetails.id}/thumb",
-          urlProcess: "http://localhost:8090/RememberMe/user/${userId}/photo/${curPhotoDetails.id}/process",
-          createDate: curPhotoDetails.createDate,
-          userId: userId ]
+        result.data << FrontModelFormatter.formatPhoto(curPhotoDetails, userId)
       }
 
       if (result.data.empty) {
@@ -188,7 +173,9 @@ class PhotoController {
     Long photoId = params.long("photoId")
     if (userId && photoId) {
 
-      photoService.saveProcessedPhoto(userId, photoId, params + request.JSON)
+      Photo updatedPhotoDetails = photoService.saveProcessedPhoto(userId, photoId, params + request.JSON)
+
+      result.data = FrontModelFormatter.formatPhoto(updatedPhotoDetails, userId)
 
       result.success = true
     } else {

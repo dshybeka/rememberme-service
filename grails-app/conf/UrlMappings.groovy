@@ -31,8 +31,5 @@ class UrlMappings {
     "/user/${userId}/photo/${photoId}/thumb"(controller: "photo") {
       action = [GET:"getThumbnailPhoto"]
     }
-    "/user/${userId}/photo/${photoId}/encoded"(controller: "photo") {
-      action = [GET:"getPhotoEncoded"]
-    }
   }
 }
