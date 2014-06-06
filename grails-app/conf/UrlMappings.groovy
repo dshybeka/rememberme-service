@@ -31,5 +31,16 @@ class UrlMappings {
     "/user/${userId}/photo/${photoId}/thumb"(controller: "photo") {
       action = [GET:"getThumbnailPhoto"]
     }
+
+    // user photo faces mapping
+    "/user/${userId}/photo/face/${faceId}"(controller: "face") {
+      action = [PUT:"updateFace"]
+    }
+    "/user/${userId}/photo/face/uid/${helpUid}"(controller: "face") {
+      action = [GET:"getFaceByUid"]
+    }
+    "/user/${userId}/photo/face/uid/${helpUid}/targets"(controller: "face") {
+      action = [GET:"getTargetFaces"]
+    }
   }
 }
