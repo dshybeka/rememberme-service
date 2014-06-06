@@ -38,7 +38,7 @@ class PhotoController {
 
       File photo = new File(photoDetails.pathToFile)
 
-      response.contentType = 'image/png'
+      response.contentType = 'image/jpeg'
       response.setHeader("Content-Length", "${photo.size()}")
       response.outputStream << photo.readBytes()
       response.outputStream.flush()
@@ -57,7 +57,7 @@ class PhotoController {
 
       File photo = new File(photoDetails.pathToThumbFile)
 
-      response.contentType = 'image/png'
+      response.contentType = 'image/jpeg' // TODO: add mapping contentTypes to extensions
       response.outputStream << photo.readBytes()
       response.outputStream.flush()
     } else {

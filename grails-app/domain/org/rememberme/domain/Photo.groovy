@@ -5,8 +5,6 @@ import org.rememberme.security.SecUser
 
 class Photo {
 
-  private static String NO_INFO_MESSAGE = "No information exists for this photo."
-
   String helpUid
 
   String fileName
@@ -47,11 +45,11 @@ class Photo {
   }
 
   public String getUserDescriptionDefault() {
-    userDescription ?: NO_INFO_MESSAGE
+    userDescription
   }
 
   public String getProcessedInformationDefault() {
-    processedInformation ?: NO_INFO_MESSAGE
+    processedInformation
   }
 
   def beforeInsert = {

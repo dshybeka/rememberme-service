@@ -89,12 +89,14 @@ class PhotoService {
 
       log.info "Will be processed"
 
-      curPhotoDetails.isProcessed = true
       curPhotoDetails.helpUid = helpUid
 
       List<Face> faces = retrieveFacesFromInfo(info)
       faces.each { Face face ->
         curPhotoDetails.addToFaces(face)
+      }
+      if (faces.size() != 0) {
+        curPhotoDetails.isProcessed = true
       }
 
       curPhotoDetails.save(flush: true)
